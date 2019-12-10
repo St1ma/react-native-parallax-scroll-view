@@ -15,6 +15,7 @@ export interface ParallaxScrollViewProps {
     renderForeground?: () => JSX.Element;
     renderFixedHeader?: () => JSX.Element;
     renderStickyHeader?: () => JSX.Element;
+    renderStickyListItem?: () => JSX.Element;
     stickyHeaderHeight?: number;
     contentContainerStyle?: any;
     outputScaleValue?: number;

@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: 'transparent'
+  },
+  stickyListItem: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    left: 0,
+    zIndex: 100,
   }
 });
 

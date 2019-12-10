@@ -1,3 +1,9 @@
+# Core Update
+
+Custom property `renderStickyListItem` which allows to create absolutely positioned item over list and stick it to sticky header bottom on scrolling.
+
+![](./demo_stickyHeader.gif)
+
 [![](https://img.shields.io/npm/dm/react-native-parallax-scroll-view.svg?style=flat-square)](https://www.npmjs.com/package/react-native-parallax-scroll-view)
 
 [![NPM](https://nodei.co/npm/react-native-parallax-scroll-view.png)](https://www.npmjs.com/package/react-native-parallax-scroll-view)
@@ -119,6 +125,7 @@ The `ParallaxScrollView` component adds a few additional properties, as describe
 | `contentContainerStyle` | `object` | No | These styles will be applied to the scroll view content container which wraps all of the child views. (same as for [ScrollView](https://facebook.github.io/react-native/docs/scrollview.html#contentcontainerstyle)) |
 | `outputScaleValue` | `number` | No | The value for the scale interpolation output value, default `5` |
 | `scrollEvent` | `func` | No | Callback to recieve the animated scroll event values |
+| `renderStickyListItem` | `func` | No | This renders an optional sticky list item that will stick to bottom of sticky header on scrolling |
 
 
 ## Latest changes

@@ -39,6 +39,7 @@ const IPropTypes = {
 	renderForeground: func,
 	renderScrollComponent: func,
 	renderStickyHeader: func,
+	renderStickyListItem: func,
 	stickyHeaderHeight: number,
 	contentContainerStyle: ViewPropTypes.style,
 	outputScaleValue: number
@@ -50,6 +51,11 @@ class ParallaxScrollView extends Component {
 		if (props.renderStickyHeader && !props.stickyHeaderHeight) {
 			console.warn(
 				'Property `stickyHeaderHeight` must be set if `renderStickyHeader` is used.'
+			)
+		}
+		if (props.renderStickyListItem && !props.renderStickyHeader) {
+			console.warn(
+				'Property `renderStickyHeader` must be set if `renderStickyListItem` is used.'
 			)
 		}
 		if (props.renderParallaxHeader !== renderEmpty && !props.renderForeground) {
@@ -88,6 +94,7 @@ class ParallaxScrollView extends Component {
 			renderParallaxHeader,
 			renderScrollComponent,
 			renderStickyHeader,
+			renderStickyListItem,
 			stickyHeaderHeight,
 			style,
 			contentContainerStyle,
@@ -110,11 +117,16 @@ class ParallaxScrollView extends Component {
 			stickyHeaderHeight,
 			renderForeground: renderForeground || renderParallaxHeader
 		})
+		const stickyListItem = this._renderStickyListItem({
+			renderStickyListItem,
+			parallaxHeaderHeight,
+			stickyHeaderHeight,
+		});
 		const bodyComponent = this._wrapChildren(children, {
 			contentBackgroundColor,
 			stickyHeaderHeight,
 			renderContentBackground,
-			contentContainerStyle
+			contentContainerStyle,
 		})
 		const footerSpacer = this._renderFooterSpacer({ contentBackgroundColor })
 		const maybeStickyHeader = this._maybeRenderStickyHeader({
@@ -131,6 +143,7 @@ class ParallaxScrollView extends Component {
 				onLayout={e => this._maybeUpdateViewDimensions(e)}
 			>
 				{background}
+				{stickyListItem}
 				{React.cloneElement(
 					scrollElement,
 					{
@@ -305,6 +318,39 @@ class ParallaxScrollView extends Component {
 					</View>
 				</Animated.View>
 			</View>
+		)
+	}
+
+	_renderStickyListItem({
+		renderStickyListItem, parallaxHeaderHeight, stickyHeaderHeight,
+	}) {
+		if (!renderStickyListItem) {
+			return null;
+		}
+
+		const p = pivotPoint(parallaxHeaderHeight, stickyHeaderHeight)
+
+		return (
+			<Animated.View
+				style={[
+					styles.stickyListItem,
+					{
+						top: parallaxHeaderHeight,
+						width: this.state.viewWidth,
+						transform: [
+							{
+								translateY: interpolate(this.scrollY, {
+									inputRange: [0, p],
+									outputRange: [0, -p],
+									extrapolateRight: 'clamp'
+								})
+							}
+						]
+					}
+				]}
+			>
+				{renderStickyListItem()}
+			</Animated.View>
 		)
 	}
 
